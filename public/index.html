@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgb(133, 133, 133);
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+            border-color: black;
+
+        }
+
+        th,
+        tr {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <head></head>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Património</th>
+                    <th>N° Série</th>
+                    <th>Descrição</th>
+                    <th>Localização</th>
+                    <th>Associação</th>
+                    <th>Condições</th>
+                    <th>Entrada</th>
+                    <th>Atualização</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+    </main>
+    <footer></footer>
+
+    <script>
+        async function carregarTabela() {
+            try {
+                const response = await fetch("http://localhost:3000/api/itens")
+                const data = await response.json()
+
+                const tbody = document.getElementById("tbody")
+
+                for (let i = 0; i < data.length; i++) {
+                    const tr = document.createElement("tr")
+                    tr.innerHTML = `
+                        <td>${data[i].cod_patrimonio}</td>
+                        <td>${data[i].n_serie}</td>
+                        <td>${data[i].associacao}</td>
+                        <td>${data[i].descricao}</td>
+                        <td>${data[i].localizacao}</td>
+                        <td>${data[i].condicoes}</td>
+                        <td>${data[i].entrada}</td>
+                        <td>${data[i].atualizacao}</td>
+                    `
+                    tbody.append(tr)
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        carregarTabela()
+    </script>
+</body>
+
+</html>
